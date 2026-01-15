@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ApiTemplateControllers.Models;
 using ApiTemplateControllers.BaseServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiTemplateControllers.BaseController;
 
@@ -18,30 +19,34 @@ public class Controller<TModel> : ControllerBase
         _service = new(context);
     }
 
-    // GET: api/Users
+    // GET: api/Item
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TModel>>> GetAll()
     {
         return await _service.GetAll();
     }
 
-    // GET: api/Users/5
+    // GET: api/Item/5
+    [Authorize]
     [HttpGet("{id:long}")]
     public async Task<ActionResult<TModel>> Get(long id)
     {
         return await _service.Get(id);
     }
 
-    // PUT: api/Users/5
+    // PUT: api/Item/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [Authorize]
     [HttpPut("{id:long}")]
     public async Task<IActionResult> Put(long id, TModel item)
     {
         return await _service.Put(id, item);
     }
 
-    // POST: api/Users
+    // POST: api/Item
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<User>> Post(TModel item)
     {
@@ -49,7 +54,8 @@ public class Controller<TModel> : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
 
-    // DELETE: api/Users/5
+    // DELETE: api/Item/5
+    [Authorize]
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> Delete(long id)
     {
