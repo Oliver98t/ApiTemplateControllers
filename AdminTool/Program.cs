@@ -22,29 +22,50 @@ var serviceProvider = services.BuildServiceProvider();
 var authService = serviceProvider.GetRequiredService<AuthService>();
 var apiContext = serviceProvider.GetRequiredService<ApiContext>();
 
-Console.WriteLine("------Admin CLI tool------");
-Console.WriteLine("\n\nOptions:\n1: Generate token\n2: Create new user");
+// Enhanced console output
+Console.Clear();
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("╔══════════════════════════════════╗");
+Console.WriteLine("║        Admin CLI Tool            ║");
+Console.WriteLine("╚══════════════════════════════════╝");
+Console.ResetColor();
+
+Console.WriteLine();
+Console.ForegroundColor = ConsoleColor.Yellow;
+Console.WriteLine("Please select an option:");
+Console.ResetColor();
+Console.WriteLine();
+Console.WriteLine("  [1] Generate authentication token");
+Console.WriteLine("  [2] Create new user account");
+Console.WriteLine();
+Console.Write("Enter your choice (1-2): ");
 
 string? option = Console.ReadLine();
 
 if( option == "1" )
 {
-    GenerateToken(authService);
+    await GenerateToken(authService);
 }
 else if( option == "2" )
 {
-    GenerateUser(apiContext);
+    await GenerateUser(apiContext);
 }
 
-async static void GenerateUser(ApiContext apiContext)
+async static Task GenerateUser(ApiContext apiContext)
 {
-    Console.WriteLine("Input Email: ");
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine("═══ Create New User ═══");
+    Console.ResetColor();
+    Console.WriteLine();
+
+    Console.Write("📧 Email: ");
     string? email = Console.ReadLine();
 
-    Console.WriteLine("Input name: ");
+    Console.Write("👤 Name: ");
     string? name = Console.ReadLine();
 
-    Console.WriteLine("Input password: ");
+    Console.Write("🔒 Password: ");
     string? password = Console.ReadLine();
 
     User user = new();
@@ -52,16 +73,36 @@ async static void GenerateUser(ApiContext apiContext)
     user.Name = name;
     user.Password = password;
 
-    apiContext.Users.Add(user);
-    await apiContext.SaveChangesAsync();
+    int usersCount = await apiContext.Users.Where(u => u.Email == email).CountAsync();
+    
+    if(usersCount > 0)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Email already exists!");
+        Console.ResetColor();
+    }
+    else 
+    {
+        await apiContext.SaveChangesAsync();
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("✅ User created successfully!");
+        Console.ResetColor();
+    }
 }
 
-async static void GenerateToken(AuthService authService)
+async static Task GenerateToken(AuthService authService)
 {
-    Console.WriteLine("Input Email: ");
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.WriteLine("═══ Generate Token ═══");
+    Console.ResetColor();
+    Console.WriteLine();
+
+    Console.Write("📧 Email: ");
     string? email = Console.ReadLine();
 
-    Console.WriteLine("Input password: ");
+    Console.Write("🔒 Password: ");
     string? password = Console.ReadLine();
 
     if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
@@ -77,16 +118,34 @@ async static void GenerateToken(AuthService authService)
             var result = await authService.LoginAsync(loginRequest);
             if (result != null)
             {
-                Console.WriteLine($"Token: {result.Token}");
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("✅ Login successful!");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"🔑 Token: {result.Token}");
+                Console.ResetColor();
             }
             else
             {
-                Console.WriteLine("Login failed!");
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("❌ Login failed! Invalid credentials.");
+                Console.ResetColor();
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"❌ Error: {ex.Message}");
+            Console.ResetColor();
         }
+    }
+    else
+    {
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("❌ Email and password are required!");
+        Console.ResetColor();
     }
 }
