@@ -1,0 +1,64 @@
+// filepath: \home\ot153954\projects\personal\learnC#\ApiTemplateControllers\.gitignore
+# Visual Studio and .NET artifacts
+*.cache
+*.dll
+*.exe
+*.pdb
+*.tmp
+*.log
+
+# Build directories
+bin/
+obj/
+out/
+
+Migrations/*.cs
+
+# User and IDE specific files
+*.suo
+*.user
+*.userprefs
+.vs/
+.vscode/settings.json
+
+# Package management
+packages/
+*.nupkg
+*.snupkg
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+# Configuration and secrets
+appsettings.local.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+*.pfx
+*.p12
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# Logs and crash reports
+*.log
+crash.log
+npm-debug.log*
+
+# Node modules (if using npm for frontend)
+node_modules/

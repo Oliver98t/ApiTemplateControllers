@@ -1,0 +1,14 @@
+@ApiTemplateControllers_HostAddress = http://localhost:5190
+
+### Login to get token
+POST {{ApiTemplateControllers_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "john@example.com",
+    "password": "mypassword"
+}
+
+### Use the token (replace with actual token from login response)
+GET {{ApiTemplateControllers_HostAddress}}/api/items/special/path/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsI....

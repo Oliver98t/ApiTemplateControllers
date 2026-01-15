@@ -1,0 +1,8 @@
+# 1. Create a new migration
+dotnet ef migrations add AddNewFeature
+
+# 2. Apply migrations to database
+dotnet ef database update
+
+# 3. Remove last migration (if not applied)
+dotnet ef migrations remove
