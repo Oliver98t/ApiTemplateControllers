@@ -12,7 +12,8 @@ bin/
 obj/
 out/
 
-Migrations/*.cs
+.vscode/
+Migrations/
 
 # User and IDE specific files
 *.suo
