@@ -12,6 +12,17 @@ public class UsersController : Controller<User>
     public UsersController(ApiContext context) : base(context)
     {
     }
+
+    [Authorize]
+    [HttpPost("test")]
+    public async Task<ActionResult<User>> Post(UserInput userInput)
+    {
+        User newUser = new();
+        newUser.Email = userInput.Email;
+        newUser.Name = userInput.Name;
+        newUser.HashedPassword = AuthService.HashPassword(userInput.Password ?? string.Empty);
+        return await base.Post(newUser);
+    }
 }
 
 public class ItemsController : Controller<Item>

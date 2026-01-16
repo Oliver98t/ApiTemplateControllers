@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiTemplateControllers.Services;
 
 /*
+TEMPLATE
 public class YOURService
 {
     private ApiContext _context;

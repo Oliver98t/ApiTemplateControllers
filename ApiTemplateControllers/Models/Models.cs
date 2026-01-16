@@ -3,6 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTemplateControllers.Models;
 
+public class UserInput
+{
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+}
+
 [Index(nameof(Email), IsUnique = true)]
 public class User : IBaseModel
 {
@@ -12,7 +19,7 @@ public class User : IBaseModel
     [Required]
     [EmailAddress]
     public string? Email { get; set; }
-    public string? Password { get; set; }
+    public string? HashedPassword { get; set; }
 }
 
 public class Item : IBaseModel

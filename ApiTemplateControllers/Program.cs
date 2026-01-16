@@ -1,6 +1,8 @@
 /*
 TODO - Unit tests
 TODO - Jenkinsfile
+TODO - password hashing
+TODO - Auth roles
 */
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

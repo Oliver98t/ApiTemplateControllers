@@ -12,11 +12,22 @@ namespace ApiTemplateControllers.Services
     {
         private readonly ApiContext _context;
         private readonly IConfiguration _configuration;
+        private const int BcryptWorkFactor = 12;
 
         public AuthService(ApiContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+        }
+
+        public static string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password, BcryptWorkFactor);
+        }
+
+        public static bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
@@ -25,7 +36,8 @@ namespace ApiTemplateControllers.Services
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            if (user == null || user.Password != request.Password)
+            // add hash verification
+            if (user == null || VerifyPassword(request.Password, user.HashedPassword ?? string.Empty))
             {
                 return null; // Invalid credentials
             }
