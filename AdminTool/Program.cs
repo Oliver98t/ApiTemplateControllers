@@ -71,7 +71,12 @@ async static Task GenerateUser(ApiContext apiContext)
     User user = new();
     user.Email = email;
     user.Name = name;
-    user.Password = password;
+    if(password == null)
+    {
+        Console.WriteLine("Invalid input");
+        return;
+    }
+    user.HashedPassword = AuthService.HashPassword(password);
 
     int usersCount = await apiContext.Users.Where(u => u.Email == email).CountAsync();
 
