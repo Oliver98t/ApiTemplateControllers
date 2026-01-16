@@ -74,15 +74,16 @@ async static Task GenerateUser(ApiContext apiContext)
     user.Password = password;
 
     int usersCount = await apiContext.Users.Where(u => u.Email == email).CountAsync();
-    
+
     if(usersCount > 0)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Email already exists!");
         Console.ResetColor();
     }
-    else 
+    else
     {
+        await apiContext.Users.AddAsync(user);
         await apiContext.SaveChangesAsync();
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Green;
