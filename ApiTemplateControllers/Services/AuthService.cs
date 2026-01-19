@@ -37,7 +37,7 @@ namespace ApiTemplateControllers.Services
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
             // add hash verification
-            if (user == null || VerifyPassword(request.Password, user.HashedPassword ?? string.Empty))
+            if (user == null || !VerifyPassword(request.Password, user.HashedPassword ?? string.Empty))
             {
                 return null; // Invalid credentials
             }

@@ -59,13 +59,13 @@ async static Task GenerateUser(ApiContext apiContext)
     Console.ResetColor();
     Console.WriteLine();
 
-    Console.Write("📧 Email: ");
+    Console.Write("Email: ");
     string? email = Console.ReadLine();
 
-    Console.Write("👤 Name: ");
+    Console.Write("Name: ");
     string? name = Console.ReadLine();
 
-    Console.Write("🔒 Password: ");
+    Console.Write("Password: ");
     string? password = Console.ReadLine();
 
     User user = new();
@@ -92,7 +92,7 @@ async static Task GenerateUser(ApiContext apiContext)
         await apiContext.SaveChangesAsync();
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("✅ User created successfully!");
+        Console.WriteLine("User created successfully!");
         Console.ResetColor();
     }
 }
@@ -105,10 +105,10 @@ async static Task GenerateToken(AuthService authService)
     Console.ResetColor();
     Console.WriteLine();
 
-    Console.Write("📧 Email: ");
+    Console.Write("Email: ");
     string? email = Console.ReadLine();
 
-    Console.Write("🔒 Password: ");
+    Console.Write("Password: ");
     string? password = Console.ReadLine();
 
     if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
@@ -126,16 +126,16 @@ async static Task GenerateToken(AuthService authService)
             {
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("✅ Login successful!");
+                Console.WriteLine("Login successful!");
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"🔑 Token: {result.Token}");
+                Console.WriteLine($"Token: {result.Token}");
                 Console.ResetColor();
             }
             else
             {
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("❌ Login failed! Invalid credentials.");
+                Console.WriteLine("Login failed! Invalid credentials.");
                 Console.ResetColor();
             }
         }
@@ -143,7 +143,7 @@ async static Task GenerateToken(AuthService authService)
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"❌ Error: {ex.Message}");
+            Console.WriteLine($"Error: {ex.Message}");
             Console.ResetColor();
         }
     }
@@ -151,7 +151,7 @@ async static Task GenerateToken(AuthService authService)
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("❌ Email and password are required!");
+        Console.WriteLine("Email and password are required!");
         Console.ResetColor();
     }
 }
