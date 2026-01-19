@@ -1,3 +1,30 @@
+/*
+ * Copyright (c) 2026 Oliver Tattersfield
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * CRUD.cs - Generic CRUD (Create, Read, Update, Delete) operations service.
+ * Provides reusable database operations for entities, including querying, filtering, and data manipulation.
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiTemplateControllers.Models;
@@ -8,11 +35,20 @@ using System.Diagnostics;
 
 namespace ApiTemplateControllers.BaseServices;
 
+/// <summary>
+/// Generic CRUD (Create, Read, Update, Delete) operations service for database entities.
+/// Provides reusable database operations including querying, filtering, and data manipulation.
+/// </summary>
+/// <typeparam name="TModel">The entity model type that implements IBaseModel.</typeparam>
 public class CRUD<TModel> where TModel : class, IBaseModel
 {
     protected readonly ApiContext _context;
     private DbSet<TModel>? _operations = null;
 
+    /// <summary>
+    /// Initializes a new instance of the CRUD class and automatically discovers the appropriate DbSet.
+    /// </summary>
+    /// <param name="context">The database context for data operations.</param>
     public CRUD(ApiContext context)
     {
         _context = context;
@@ -36,6 +72,11 @@ public class CRUD<TModel> where TModel : class, IBaseModel
         }
     }
 
+    /// <summary>
+    /// Retrieves all entities from the database.
+    /// </summary>
+    /// <returns>An ActionResult containing a collection of all entities of type TModel.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the DbSet is not properly initialized.</exception>
     public async Task<ActionResult<IEnumerable<TModel>>> GetAll()
     {
         if (_operations == null)
@@ -45,6 +86,12 @@ public class CRUD<TModel> where TModel : class, IBaseModel
         return await _operations.ToListAsync();
     }
 
+    /// <summary>
+    /// Retrieves a specific entity by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the entity to retrieve.</param>
+    /// <returns>An ActionResult containing the entity if found, or a NotFound result if not found.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the DbSet is not properly initialized.</exception>
     public async Task<ActionResult<TModel>> Get(long id)
     {
         if (_operations == null)
@@ -62,6 +109,12 @@ public class CRUD<TModel> where TModel : class, IBaseModel
         return item;
     }
 
+    /// <summary>
+    /// Updates an existing entity in the database.
+    /// </summary>
+    /// <param name="id">The unique identifier of the entity to update.</param>
+    /// <param name="item">The entity with updated values.</param>
+    /// <returns>An IActionResult indicating the success or failure of the update operation.</returns>
     public async Task<IActionResult> Put(long id, TModel item)
     {
         if (id != item.Id)
@@ -90,6 +143,12 @@ public class CRUD<TModel> where TModel : class, IBaseModel
         return new NoContentResult();
     }
 
+    /// <summary>
+    /// Creates a new entity in the database.
+    /// </summary>
+    /// <param name="item">The entity to create.</param>
+    /// <returns>An ActionResult containing the created entity with its assigned ID.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the DbSet is not properly initialized.</exception>
     public async Task<ActionResult<TModel>> Post(TModel item)
     {
         if (_operations == null)
@@ -102,6 +161,12 @@ public class CRUD<TModel> where TModel : class, IBaseModel
         return new OkObjectResult(item);
     }
 
+    /// <summary>
+    /// Deletes an entity from the database by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the entity to delete.</param>
+    /// <returns>An IActionResult indicating the success or failure of the delete operation.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the DbSet is not properly initialized.</exception>
     public async Task<IActionResult> Delete(long id)
     {
         if (_operations == null)
