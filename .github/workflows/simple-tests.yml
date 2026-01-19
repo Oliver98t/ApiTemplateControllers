@@ -20,7 +20,10 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'  # Use .NET 8
-        
+    
+    - name: Enter test dir
+    - run: cd ApiTemplateControllers.Tests/
+    
     - name: Restore dependencies
       run: dotnet restore
       
