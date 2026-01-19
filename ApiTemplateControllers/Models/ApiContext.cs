@@ -29,13 +29,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTemplateControllers.Models;
 
+/// <summary>
+/// Entity Framework database context for the API Template Controllers application.
+/// Manages database connections, entity sets, and provides data access functionality.
+/// </summary>
 public class ApiContext : DbContext
 {
+    /// <summary>
+    /// Initializes a new instance of the ApiContext class with the specified options.
+    /// </summary>
+    /// <param name="options">The database context options for configuration.</param>
     public ApiContext(DbContextOptions<ApiContext> options)
         : base(options)
     {
     }
 
+    /// <summary>
+    /// Gets or sets the Users entity set for user data operations.
+    /// </summary>
     public DbSet<User> Users { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the Items entity set for item data operations.
+    /// </summary>
     public DbSet<Item> Items { get; set; } = null!;
 }

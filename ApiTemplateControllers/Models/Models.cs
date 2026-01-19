@@ -30,23 +30,60 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTemplateControllers.Models;
 
+/// <summary>
+/// Represents user input data for user creation or registration operations.
+/// Contains unhashed password and user information before processing.
+/// </summary>
 public class UserInput: IBaseModel
 {
+    /// <summary>
+    /// Gets or sets the unique identifier for the user input.
+    /// </summary>
     public long Id { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the user's display name.
+    /// </summary>
     public string? Name { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the user's email address.
+    /// </summary>
     public string? Email { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the user's plain text password (before hashing).
+    /// </summary>
     public string? Password { get; set; }
 }
 
+/// <summary>
+/// Represents a registered user in the system with secure password storage.
+/// Contains user account information and authentication credentials.
+/// </summary>
 [Index(nameof(Email), IsUnique = true)]
 public class User : IBaseModel
 {
+    /// <summary>
+    /// Gets or sets the unique identifier for the user.
+    /// </summary>
     public long Id { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the user's display name.
+    /// </summary>
     public string? Name { get; set; }
 
+    /// <summary>
+    /// Gets or sets the user's email address. Must be unique and in valid email format.
+    /// </summary>
     [Required]
     [EmailAddress]
     public string? Email { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the user's BCrypt hashed password for secure storage.
+    /// </summary>
     public string? HashedPassword { get; set; }
 }
 

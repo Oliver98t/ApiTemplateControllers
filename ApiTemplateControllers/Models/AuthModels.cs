@@ -28,17 +28,45 @@
 // Models/AuthDtos.cs
 namespace ApiTemplateControllers.Models
 {
+    /// <summary>
+    /// Represents a user login request containing email and password credentials.
+    /// </summary>
     public class LoginRequest
     {
+        /// <summary>
+        /// Gets or sets the user's email address for authentication.
+        /// </summary>
         public string Email { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the user's password for authentication.
+        /// </summary>
         public string Password { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// Represents a successful login response containing authentication token and user information.
+    /// </summary>
     public class LoginResponse
     {
+        /// <summary>
+        /// Gets or sets the JWT authentication token.
+        /// </summary>
         public string Token { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the authenticated user's email address.
+        /// </summary>
         public string Email { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the authenticated user's unique identifier.
+        /// </summary>
         public long UserId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the token expiration date and time.
+        /// </summary>
         public DateTime ExpiresAt { get; set; }
     }
 }

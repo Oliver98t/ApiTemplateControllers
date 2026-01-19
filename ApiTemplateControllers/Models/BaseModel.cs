@@ -27,7 +27,14 @@
 
 namespace ApiTemplateControllers.Models;
 
+/// <summary>
+/// Defines the base interface for all database entity models.
+/// Provides common properties that all entities must implement.
+/// </summary>
 public interface IBaseModel
 {
+    /// <summary>
+    /// Gets or sets the unique identifier for the entity.
+    /// </summary>
     long Id { get; set; }
 }

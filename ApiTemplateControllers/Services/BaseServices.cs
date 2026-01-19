@@ -29,7 +29,16 @@ using ApiTemplateControllers.Models;
 
 namespace ApiTemplateControllers.BaseServices;
 
+/// <summary>
+/// Base service class providing common functionality for all business logic services.
+/// Inherits CRUD operations and serves as a foundation for entity-specific services.
+/// </summary>
+/// <typeparam name="TModel">The entity model type that implements IBaseModel.</typeparam>
 public class BaseService<TModel> : CRUD<TModel> where TModel : class, IBaseModel
 {
+	/// <summary>
+	/// Initializes a new instance of the BaseService class.
+	/// </summary>
+	/// <param name="context">The database context for data operations.</param>
 	public BaseService(ApiContext context) : base(context){}
 }

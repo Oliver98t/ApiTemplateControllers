@@ -35,28 +35,53 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTemplateControllers.Services
 {
+    /// <summary>
+    /// Provides authentication services including password hashing, user login validation, and JWT token generation.
+    /// Implements secure authentication using BCrypt for password hashing and JWT tokens for session management.
+    /// </summary>
     public class AuthService
     {
         private readonly ApiContext _context;
         private readonly IConfiguration _configuration;
         private const int BcryptWorkFactor = 12;
 
+        /// <summary>
+        /// Initializes a new instance of the AuthService class.
+        /// </summary>
+        /// <param name="context">The database context for user data access.</param>
+        /// <param name="configuration">The application configuration containing JWT settings.</param>
         public AuthService(ApiContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Hashes a plain text password using BCrypt with the configured work factor.
+        /// </summary>
+        /// <param name="password">The plain text password to hash.</param>
+        /// <returns>The BCrypt hashed password string.</returns>
         public static string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password, BcryptWorkFactor);
         }
 
+        /// <summary>
+        /// Verifies a plain text password against a BCrypt hashed password.
+        /// </summary>
+        /// <param name="password">The plain text password to verify.</param>
+        /// <param name="hashedPassword">The BCrypt hashed password to verify against.</param>
+        /// <returns>True if the password matches the hash, otherwise false.</returns>
         public static bool VerifyPassword(string password, string hashedPassword)
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
+        /// <summary>
+        /// Authenticates a user with email and password, returning a JWT token if successful.
+        /// </summary>
+        /// <param name="request">The login request containing email and password.</param>
+        /// <returns>A LoginResponse with JWT token and user details if authentication succeeds, null if it fails.</returns>
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
         {
             // Find user by email
@@ -82,6 +107,11 @@ namespace ApiTemplateControllers.Services
             };
         }
 
+        /// <summary>
+        /// Generates a JWT token for the authenticated user containing user claims.
+        /// </summary>
+        /// <param name="user">The user for whom to generate the token.</param>
+        /// <returns>A JWT token string containing user claims and authentication information.</returns>
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

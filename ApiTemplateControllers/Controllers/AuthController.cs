@@ -32,17 +32,33 @@ using ApiTemplateControllers.Services;
 
 namespace ApiTemplateControllers.Controllers
 {
+    /// <summary>
+    /// Handles authentication-related HTTP requests including user login and registration.
+    /// Provides REST API endpoints for user authentication operations.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
 
+        /// <summary>
+        /// Initializes a new instance of the AuthController class.
+        /// </summary>
+        /// <param name="authService">The authentication service for handling login operations.</param>
         public AuthController(AuthService authService)
         {
             _authService = authService;
         }
 
+        /// <summary>
+        /// Authenticates a user with email and password credentials.
+        /// </summary>
+        /// <param name="request">The login request containing user credentials.</param>
+        /// <returns>A LoginResponse with JWT token if authentication succeeds, or an error response if it fails.</returns>
+        /// <response code="200">Returns the JWT token and user information on successful authentication.</response>
+        /// <response code="400">Returns an error if email or password is missing.</response>
+        /// <response code="401">Returns an error if the credentials are invalid.</response>
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
         {

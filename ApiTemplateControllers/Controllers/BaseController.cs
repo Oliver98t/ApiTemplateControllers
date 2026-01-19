@@ -32,6 +32,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ApiTemplateControllers.BaseController;
 
+/// <summary>
+/// Generic base controller providing common CRUD operations for entities.
+/// Contains shared HTTP endpoints and utilities that can be inherited by specific controllers.
+/// </summary>
+/// <typeparam name="TModel">The entity model type that implements IBaseModel.</typeparam>
 [Route("api/[controller]")]
 [ApiController]
 public class Controller<TModel> : ControllerBase
@@ -40,12 +45,20 @@ public class Controller<TModel> : ControllerBase
     protected readonly ApiContext _context;
     private readonly BaseService<TModel> _service;
 
+    /// <summary>
+    /// Initializes a new instance of the Controller class.
+    /// </summary>
+    /// <param name="context">The database context for data operations.</param>
     public Controller(ApiContext context)
     {
         _context = context;
         _service = new(context);
     }
 
+    /// <summary>
+    /// Gets all entities of the specified type.
+    /// </summary>
+    /// <returns>A collection of all entities.</returns>
     // GET: api/Item
     [Authorize]
     [HttpGet]

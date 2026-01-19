@@ -34,17 +34,31 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ApiTemplateControllers.Controllers;
 
+/// <summary>
+/// Controller for managing user-related operations and endpoints.
+/// Handles HTTP requests for user creation, retrieval, updating, and deletion.
+/// Implements custom actions on base routes for user management.
+/// </summary>
 // implemented using custom actions on base routes
 [Route("api/[controller]")]
 [ApiController]
 public class UsersController: ControllerBase
 {
     private readonly ApiContext _context;
+    
+    /// <summary>
+    /// Initializes a new instance of the UsersController class.
+    /// </summary>
+    /// <param name="context">The database context for user data operations.</param>
     public UsersController(ApiContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Retrieves all users from the database.
+    /// </summary>
+    /// <returns>A collection of all users.</returns>
     // GET: api/Item
     [Authorize]
     [HttpGet]

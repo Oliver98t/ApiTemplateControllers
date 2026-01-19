@@ -44,9 +44,18 @@ public class YOURService
 }
 */
 
+/// <summary>
+/// Service class for managing user-related business operations.
+/// Handles user creation, validation, and database operations.
+/// </summary>
 public class UsersService
 {
     private ApiContext _context;
+
+    /// <summary>
+    /// Initializes a new instance of the UsersService class.
+    /// </summary>
+    /// <param name="context">The database context for user data operations.</param>
 
     public UsersService(ApiContext context)
     {
