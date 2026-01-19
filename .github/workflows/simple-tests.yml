@@ -1,0 +1,34 @@
+name: Simple .NET Tests
+
+# Trigger on push to main and Authentication branches, and on PRs
+on:
+  push:
+    branches: [ main, Authentication ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'  # Use .NET 8
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build project
+      run: dotnet build --no-restore --configuration Release
+      
+    - name: Run unit tests
+      run: dotnet test --no-build --configuration Release --verbosity normal
+      
+    - name: Test summary
+      run: echo "✅ All tests completed!"
