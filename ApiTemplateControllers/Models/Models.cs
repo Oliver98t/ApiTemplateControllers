@@ -3,8 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTemplateControllers.Models;
 
-public class UserInput
+public class UserInput: IBaseModel
 {
+    public long Id { get; set; }
     public string? Name { get; set; }
     public string? Email { get; set; }
     public string? Password { get; set; }
